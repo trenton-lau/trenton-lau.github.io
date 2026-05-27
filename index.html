@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trenton Lau - The Chinese University of Hong Kong</title>
+    
+    <!-- Bootstrap CSS for layout -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    
+    <style>
+        /* Base typography & background */
+        body {
+            padding-top: 20px;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            color: #1d1d1f; 
+            background-color: #fbfbfd; 
+        }
+        
+        .container {
+            max-width: 850px;
+            padding-bottom: 50px;
+        }
+
+        /* 
+           =======================================
+           COLORFUL ACADEMIC THEME (CUHK Inspired)
+           =======================================
+        */
+        :root {
+            --cuhk-purple: #742571;
+            --cuhk-gold: #E8A317;
+            --link-blue: #0056b3;
+            --pub-green: #2E8B57;
+            --theme-1-color: #e83e8c; /* Magenta for ML Theme */
+            --theme-2-color: #17a2b8; /* Teal for Stat Mech Theme */
+        }
+
+        /* Colorful Navbar */
+        .navbar-custom {
+            background-color: var(--cuhk-purple);
+            border-radius: 8px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 12px rgba(116, 37, 113, 0.2);
+            padding: 10px 20px;
+        }
+        .navbar-custom .navbar-brand,
+        .navbar-custom .nav-link {
+            color: #ffffff !important;
+            font-weight: 500;
+            letter-spacing: 0.5px;
+        }
+        .navbar-custom .nav-link:hover {
+            color: var(--cuhk-gold) !important;
+        }
+
+        /* Header & Bio Styling */
+        h1 {
+            font-size: 40px;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            margin-bottom: 8px;
+            color: var(--cuhk-purple);
+        }
+        h4 {
+            color: #555;
+            font-weight: 500;
+            font-size: 20px;
+            margin-bottom: 25px;
+        }
+        .contact-info p {
+            margin-bottom: 8px;
+            font-size: 16px;
+        }
+        .contact-info a {
+            color: var(--link-blue);
+            font-weight: 500;
+            text-decoration: none;
+        }
+        .contact-info a:hover {
+            text-decoration: underline;
+        }
+        .bio-text {
+            font-size: 16.5px;
+            line-height: 1.7;
+            margin-top: 25px;
+            padding: 20px 25px;
+            background-color: #ffffff;
+            border-left: 4px solid var(--cuhk-gold);
+            border-radius: 6px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.03);
+            color: #333;
+        }
+
+        /* Section Headers */
+        .section-header {
+            margin-top: 60px;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--cuhk-purple);
+            font-weight: 600;
+            font-size: 28px;
+            color: var(--cuhk-purple);
+        }
+
+        /* Colorful Category Styling */
+        .category-title {
+            font-size: 20px;
+            font-weight: 600;
+            margin-top: 35px;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+        }
+        .cat-theme-1 { color: var(--theme-1-color); }
+        .cat-theme-2 { color: var(--theme-2-color); }
+        
+        .cat-icon {
+            display: inline-block;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            margin-right: 12px;
+        }
+        .icon-theme-1 { background-color: var(--theme-1-color); box-shadow: 0 0 8px var(--theme-1-color); }
+        .icon-theme-2 { background-color: var(--theme-2-color); box-shadow: 0 0 8px var(--theme-2-color); }
+
+        /* Publication Items */
+        .pub-item {
+            margin-bottom: 30px;
+            background: #ffffff;
+            padding: 25px;
+            border-radius: 12px;
+            border-left: 4px solid #e2e2e5;
+            box-shadow: 0 4px 14px rgba(0,0,0,0.03);
+            transition: transform 0.2s ease, border-color 0.2s ease;
+        }
+        .pub-item:hover {
+            transform: translateY(-3px);
+        }
+        .pub-item.theme-1-hover:hover { border-color: var(--theme-1-color); }
+        .pub-item.theme-2-hover:hover { border-color: var(--theme-2-color); }
+
+        .pub-title {
+            font-weight: 600;
+            font-size: 18px;
+            margin-bottom: 6px;
+            color: #1d1d1f;
+        }
+        .pub-authors {
+            color: var(--pub-green);
+            margin-bottom: 4px;
+            font-size: 15px;
+            font-weight: 500;
+        }
+        .pub-venue {
+            font-style: italic;
+            font-size: 14.5px;
+            color: #666;
+            margin-bottom: 15px;
+        }
+        
+        /* Color-Coded Buttons */
+        .btn-custom {
+            padding: 4px 12px;
+            font-size: 13px;
+            font-weight: 600;
+            border-radius: 20px;
+            text-decoration: none;
+            margin-right: 8px;
+            transition: all 0.3s ease;
+        }
+        .btn-arxiv {
+            background-color: #fde8e8;
+            color: #b02a2a;
+            border: 1px solid #f8caca;
+        }
+        .btn-arxiv:hover {
+            background-color: #b02a2a;
+            color: white;
+            text-decoration: none;
+        }
+        .btn-pdf {
+            background-color: #e6f2ff;
+            color: #0056b3;
+            border: 1px solid #cce5ff;
+        }
+        .btn-pdf:hover {
+            background-color: #0056b3;
+            color: white;
+            text-decoration: none;
+        }
+
+        .pub-abstract {
+            font-size: 14px;
+            line-height: 1.6;
+            color: #444;
+            margin-top: 18px;
+            text-align: justify;
+            background-color: #f8f9fa;
+            padding: 15px;
+            border-radius: 8px;
+            border: 1px solid #eee;
+        }
+
+        /* 
+           =======================================
+           APPLE-STYLE SCROLL TRANSITION
+           =======================================
+        */
+        .reveal-on-scroll {
+            opacity: 0; 
+            transform: translateY(35px); 
+            transition: opacity 1.0s cubic-bezier(0.16, 1, 0.3, 1), 
+                        transform 1.0s cubic-bezier(0.16, 1, 0.3, 1);
+            will-change: opacity, transform;
+        }
+        .reveal-on-scroll.is-visible {
+            opacity: 1; 
+            transform: translateY(0); 
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    
+    <!-- Navigation Bar (Colorful & Animated) -->
+    <nav class="navbar navbar-expand-lg navbar-custom reveal-on-scroll">
+        <a class="navbar-brand" href="#">Trenton Lau</a>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item"><a class="nav-link" href="#">Home</a></li>
+                <li class="nav-item"><a class="nav-link" href="#publications">Publications</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Bio / Header Section (Animated) -->
+    <div class="row reveal-on-scroll" style="margin-top: 40px;">
+        <div class="col-md-12 contact-info">
+            <h1>Trenton Lau</h1>
+            <h4>Researcher</h4>
+            <p><strong>Department of Mathematics</strong></p>
+            <p><strong>The Chinese University of Hong Kong</strong></p>
+            <p>Email: <a href="mailto:trentonlau@cuhk.edu.hk">trentonlau@cuhk.edu.hk</a></p>
+            <p>Office: Room G06, Lady Shaw Building</p>
+            
+            <div class="bio-text">
+                I am a researcher in the Department of Mathematics at The Chinese University of Hong Kong, working under the supervision of <a href="https://www.math.cuhk.edu.hk/~ptchoi/" target="_blank">Prof. Gary P. T. Choi</a>. My research interests include mathematical modeling, geometric sampling, measure-theoretic foundations, and mechanical rigidity in lattice structures.
+            </div>
+        </div>
+    </div>
+
+    <!-- Publications Section Header (Animated) -->
+    <h3 class="section-header reveal-on-scroll" id="publications">Publications</h3>
+
+    <!-- ============================================== -->
+    <!-- CATEGORY 1: Machine Learning & Measure Theory  -->
+    <!-- ============================================== -->
+    <div class="category-title cat-theme-1 reveal-on-scroll">
+        <span class="cat-icon icon-theme-1"></span> Machine Learning & Information Theory
+    </div>
+    
+    <div class="pub-item theme-1-hover reveal-on-scroll">
+        <div class="pub-title">The Normalized Maximum Likelihood for Regular Non-Smooth Models: Measure-Theoretic Foundations and Geometric Sampling</div>
+        <div class="pub-authors">Trenton Lau, Gary P. T. Choi</div>
+        <div class="pub-venue">arXiv preprint arXiv:2605.24477 (2026)</div>
+        <div>
+            <a href="https://arxiv.org/abs/2605.24477" class="btn-custom btn-arxiv" target="_blank">arXiv</a>
+            <a href="https://arxiv.org/pdf/2605.24477" class="btn-custom btn-pdf" target="_blank">PDF</a>
+        </div>
+        <div class="pub-abstract"><strong>Abstract:</strong> The Normalized Maximum Likelihood (NML) codelength, or stochastic complexity, represents a principled criterion for universal coding. While recent coarea-based formulations provided a calculation method for smooth models, this framework collapses for the non-smooth estimators ubiquitous in modern machine learning (e.g., Lasso, Sparse SVMs). In this work, we provide a rigorous framework for computation...</div>
+    </div>
+
+    <!-- ============================================== -->
+    <!-- CATEGORY 2: Network Science & Stat Mech        -->
+    <!-- ============================================== -->
+    <div class="category-title cat-theme-2 reveal-on-scroll">
+        <span class="cat-icon icon-theme-2"></span> Network Science & Statistical Mechanics
+    </div>
+
+    <div class="pub-item theme-2-hover reveal-on-scroll">
+        <div class="pub-title">Explosive connectivity and mechanical rigidity in cubic lattice structures</div>
+        <div class="pub-authors">Trenton Lau, Gary P. T. Choi</div>
+        <div class="pub-venue">arXiv preprint arXiv:2511.01537 (2025)</div>
+        <div>
+            <a href="https://arxiv.org/abs/2511.01537" class="btn-custom btn-arxiv" target="_blank">arXiv</a>
+            <a href="https://arxiv.org/pdf/2511.01537" class="btn-custom btn-pdf" target="_blank">PDF</a>
+        </div>
+        <div class="pub-abstract"><strong>Abstract:</strong> We study explosive connectivity and mechanical rigidity in three-dimensional cubic lattice structures under Achlioptas-type product-rule dynamics. Our work combines extensive numerical simulation with the development of a new theoretical framework. For connectivity, we rigorously establish the presence of sublinear-width merger-cascade windows for k ≥ 2, which drive macroscopic jumps in the order...</div>
+    </div>
+
+    <!-- Footer (Animated) -->
+    <footer class="mt-5 pt-4 text-center text-muted reveal-on-scroll" style="font-size: 14px; margin-bottom: 20px; border-top: 1px solid #d2d2d7;">
+        <p>&copy; 2026 Trenton Lau. The Chinese University of Hong Kong.</p>
+    </footer>
+
+</div>
+
+<!-- 
+   =======================================
+   APPLE-STYLE SCROLL TRANSITION JAVASCRIPT
+   =======================================
+-->
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const observerOptions = {
+            root: null,
+            rootMargin: '0px',
+            threshold: 0.15 
+        };
+
+        const observer = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('is-visible');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, observerOptions);
+
+        const revealElements = document.querySelectorAll('.reveal-on-scroll');
+        revealElements.forEach(el => {
+            observer.observe(el);
+        });
+        
+        // Immediate reveal for elements already at the top of the screen on load
+        setTimeout(() => {
+            revealElements.forEach(el => {
+                const rect = el.getBoundingClientRect();
+                if(rect.top < window.innerHeight) {
+                    el.classList.add('is-visible');
+                }
+            });
+        }, 100);
+    });
+</script>
+
+</body>
+</html>
