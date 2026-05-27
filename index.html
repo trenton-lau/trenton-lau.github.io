@@ -8,85 +8,90 @@
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     
-    <!-- MathJax for rendering LaTeX equations (Academic Flex) -->
+    <!-- MathJax for rendering LaTeX -->
     <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
     <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 
     <style>
-        body {
-            padding-top: 20px;
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-            color: #1d1d1f; 
-            background-color: #fbfbfd; 
-            overflow-x: hidden;
-        }
-        
-        /* The Canvas Background */
-        #network-canvas {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
-            z-index: -1; /* Puts it behind everything */
-            opacity: 0.6;
-        }
-
-        .container { max-width: 850px; padding-bottom: 50px; position: relative; z-index: 1;}
-
+        /* CSS Variables for Light/Dark Mode */
         :root {
+            --bg-color: #fbfbfd;
+            --text-color: #1d1d1f;
             --cuhk-purple: #742571;
             --cuhk-gold: #E8A317;
             --link-blue: #0056b3;
             --pub-green: #2E8B57;
+            --card-bg: rgba(255, 255, 255, 0.95);
+            --bio-bg: rgba(255, 255, 255, 0.85);
             --theme-1-color: #e83e8c; 
             --theme-2-color: #17a2b8; 
+            --nav-bg: rgba(116, 37, 113, 0.9);
+            --particle-color: 116, 37, 113; 
         }
 
-        /* Glassmorphism Navbar */
-        .navbar-custom {
-            background: rgba(116, 37, 113, 0.9);
-            backdrop-filter: blur(10px); /* Apple-style frosted glass */
-            -webkit-backdrop-filter: blur(10px);
-            border-radius: 8px;
-            margin-bottom: 30px;
-            box-shadow: 0 4px 15px rgba(116, 37, 113, 0.3);
-            padding: 10px 20px;
+        body.dark-mode {
+            --bg-color: #121212;
+            --text-color: #e0e0e0;
+            --cuhk-purple: #a658a3; 
+            --link-blue: #66b3ff;
+            --pub-green: #4db87d;
+            --card-bg: rgba(30, 30, 30, 0.95);
+            --bio-bg: rgba(30, 30, 30, 0.85);
+            --nav-bg: rgba(20, 20, 20, 0.9);
+            --particle-color: 232, 163, 23; 
         }
-        .navbar-custom .navbar-brand, .navbar-custom .nav-link {
-            color: #ffffff !important;
-            font-weight: 500;
-        }
+
+        body { padding-top: 20px; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; color: var(--text-color); background-color: var(--bg-color); overflow-x: hidden; transition: background-color 0.5s ease, color 0.5s ease; }
+        
+        /* Scroll Progress Bar */
+        #scroll-progress { position: fixed; top: 0; left: 0; width: 0%; height: 4px; background: linear-gradient(to right, var(--cuhk-purple), var(--cuhk-gold), var(--theme-2-color)); z-index: 9999; transition: width 0.1s; }
+
+        #network-canvas { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: -1; opacity: 0.6; }
+        .container { max-width: 900px; padding-bottom: 50px; position: relative; z-index: 1;}
+
+        .navbar-custom { background: var(--nav-bg); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); border-radius: 8px; margin-bottom: 30px; box-shadow: 0 4px 15px rgba(0,0,0,0.3); padding: 10px 20px; transition: background 0.5s ease; }
+        .navbar-custom .navbar-brand, .navbar-custom .nav-link { color: #ffffff !important; font-weight: 500; }
         .navbar-custom .nav-link:hover { color: var(--cuhk-gold) !important; }
 
-        h1 { font-size: 40px; font-weight: 700; letter-spacing: -0.02em; margin-bottom: 8px; color: var(--cuhk-purple); }
-        
-        /* Typing Effect Cursor */
-        h4 { color: #555; font-weight: 500; font-size: 20px; margin-bottom: 25px; min-height: 24px;}
-        .typing-cursor {
-            display: inline-block;
-            width: 3px;
-            height: 20px;
-            background-color: var(--cuhk-gold);
-            animation: blink 0.7s infinite;
-            vertical-align: text-bottom;
-        }
+        h1 { font-size: 40px; font-weight: 700; letter-spacing: -0.02em; margin-bottom: 8px; color: var(--cuhk-purple); transition: color 0.5s ease; cursor: crosshair; }
+        h4 { color: var(--text-color); opacity: 0.8; font-weight: 500; font-size: 20px; margin-bottom: 25px; min-height: 24px;}
+        .typing-cursor { display: inline-block; width: 3px; height: 20px; background-color: var(--cuhk-gold); animation: blink 0.7s infinite; vertical-align: text-bottom; }
         @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
 
         .contact-info p { margin-bottom: 8px; font-size: 16px; }
         .contact-info a { color: var(--link-blue); font-weight: 500; text-decoration: none; }
-        
-        /* Glassmorphism Bio Box */
-        .bio-text {
-            font-size: 16.5px; line-height: 1.7; margin-top: 25px; padding: 20px 25px;
-            background: rgba(255, 255, 255, 0.85);
-            backdrop-filter: blur(5px);
-            border-left: 4px solid var(--cuhk-gold);
-            border-radius: 6px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
-            color: #333;
-        }
+        .bio-text { font-size: 16.5px; line-height: 1.7; margin-top: 25px; padding: 20px 25px; background: var(--bio-bg); backdrop-filter: blur(5px); border-left: 4px solid var(--cuhk-gold); border-radius: 6px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); color: var(--text-color); transition: background 0.5s ease, color 0.5s ease; }
 
+        /* 
+           =======================================
+           PURE CSS 3D SPINNING & EXPLODING CUBE
+           =======================================
+        */
+        .scene { width: 120px; height: 120px; perspective: 600px; margin: 20px auto; cursor: crosshair;}
+        .cube { width: 100%; height: 100%; position: relative; transform-style: preserve-3d; animation: spinCube 12s infinite linear; }
+        .cube-face { position: absolute; width: 120px; height: 120px; border: 2px solid var(--cuhk-purple); background: rgba(232, 163, 23, 0.1); backdrop-filter: blur(2px); transition: transform 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275), border-color 0.5s ease; }
+        .cube-face::before { content: ''; position: absolute; top: 50%; left: 0; width: 100%; height: 2px; background: var(--cuhk-purple); opacity: 0.5; }
+        .cube-face::after { content: ''; position: absolute; left: 50%; top: 0; height: 100%; width: 2px; background: var(--cuhk-purple); opacity: 0.5; }
+        
+        /* Base positions */
+        .front  { transform: rotateY(  0deg) translateZ(60px); }
+        .right  { transform: rotateY( 90deg) translateZ(60px); }
+        .back   { transform: rotateY(180deg) translateZ(60px); }
+        .left   { transform: rotateY(-90deg) translateZ(60px); }
+        .top    { transform: rotateX( 90deg) translateZ(60px); }
+        .bottom { transform: rotateX(-90deg) translateZ(60px); }
+        
+        /* Hover "Explosion" Expansion */
+        .scene:hover .front  { transform: rotateY(  0deg) translateZ(90px); background: rgba(232, 163, 23, 0.3); border-color: var(--theme-1-color);}
+        .scene:hover .right  { transform: rotateY( 90deg) translateZ(90px); background: rgba(232, 163, 23, 0.3); border-color: var(--theme-1-color);}
+        .scene:hover .back   { transform: rotateY(180deg) translateZ(90px); background: rgba(232, 163, 23, 0.3); border-color: var(--theme-1-color);}
+        .scene:hover .left   { transform: rotateY(-90deg) translateZ(90px); background: rgba(232, 163, 23, 0.3); border-color: var(--theme-1-color);}
+        .scene:hover .top    { transform: rotateX( 90deg) translateZ(90px); background: rgba(232, 163, 23, 0.3); border-color: var(--theme-1-color);}
+        .scene:hover .bottom { transform: rotateX(-90deg) translateZ(90px); background: rgba(232, 163, 23, 0.3); border-color: var(--theme-1-color);}
+
+        @keyframes spinCube { 0% { transform: rotateX(0deg) rotateY(0deg) rotateZ(0deg); } 100% { transform: rotateX(360deg) rotateY(360deg) rotateZ(360deg); } }
+
+        /* UI Styles */
         .section-header { margin-top: 60px; margin-bottom: 20px; padding-bottom: 10px; border-bottom: 2px solid var(--cuhk-purple); font-weight: 600; font-size: 28px; color: var(--cuhk-purple); }
         .category-title { font-size: 20px; font-weight: 600; margin-top: 35px; margin-bottom: 15px; display: flex; align-items: center; }
         .cat-theme-1 { color: var(--theme-1-color); }
@@ -95,53 +100,43 @@
         .icon-theme-1 { background-color: var(--theme-1-color); box-shadow: 0 0 8px var(--theme-1-color); }
         .icon-theme-2 { background-color: var(--theme-2-color); box-shadow: 0 0 8px var(--theme-2-color); }
 
-        /* 
-           =======================================
-           APPLE TV 3D PARALLAX EFFECT CSS
-           =======================================
-        */
-        .pub-item {
-            margin-bottom: 30px;
-            background: rgba(255, 255, 255, 0.95);
-            padding: 25px;
-            border-radius: 15px;
-            border-left: 4px solid #e2e2e5;
-            box-shadow: 0 10px 20px rgba(0,0,0,0.05);
-            /* Setup for 3D Transform */
-            transform-style: preserve-3d;
-            transform: perspective(1000px) rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg));
-            transition: transform 0.1s ease-out, border-color 0.2s ease, box-shadow 0.2s ease;
-        }
-        .pub-item:hover {
-            box-shadow: 0 20px 40px rgba(0,0,0,0.15);
-            z-index: 10;
-        }
-        /* Push content outwards during 3D tilt for depth */
+        .pub-item { margin-bottom: 30px; background: var(--card-bg); padding: 25px; border-radius: 15px; border-left: 4px solid #e2e2e5; box-shadow: 0 10px 20px rgba(0,0,0,0.05); transform-style: preserve-3d; transform: perspective(1000px) rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg)); transition: transform 0.1s ease-out, border-color 0.2s ease, box-shadow 0.2s ease, background 0.5s ease; }
+        .pub-item:hover { box-shadow: 0 20px 40px rgba(0,0,0,0.2); z-index: 10; }
         .pub-item:hover .pub-title { transform: translateZ(20px); }
         .pub-item:hover .pub-abstract { transform: translateZ(15px); }
-        .pub-title { transition: transform 0.2s; font-weight: 600; font-size: 18px; margin-bottom: 6px; color: #1d1d1f; }
-        .pub-abstract { transition: transform 0.2s; font-size: 14px; line-height: 1.6; color: #444; margin-top: 18px; text-align: justify; background-color: #f8f9fa; padding: 15px; border-radius: 8px; border: 1px solid #eee; }
-
+        .pub-title { transition: transform 0.2s; font-weight: 600; font-size: 18px; margin-bottom: 6px; color: var(--text-color); }
+        .pub-abstract { transition: transform 0.2s; font-size: 14px; line-height: 1.6; color: var(--text-color); opacity: 0.85; margin-top: 18px; text-align: justify; background-color: rgba(0,0,0,0.03); padding: 15px; border-radius: 8px; border: 1px solid rgba(128,128,128,0.2); }
         .pub-item.theme-1-hover:hover { border-color: var(--theme-1-color); }
         .pub-item.theme-2-hover:hover { border-color: var(--theme-2-color); }
         .pub-authors { color: var(--pub-green); margin-bottom: 4px; font-size: 15px; font-weight: 500; }
-        .pub-venue { font-style: italic; font-size: 14.5px; color: #666; margin-bottom: 15px; }
+        .pub-venue { font-style: italic; font-size: 14.5px; opacity: 0.7; margin-bottom: 15px; }
         
-        .btn-custom { padding: 4px 12px; font-size: 13px; font-weight: 600; border-radius: 20px; text-decoration: none; margin-right: 8px; transition: all 0.3s ease; }
-        .btn-arxiv { background-color: #fde8e8; color: #b02a2a; border: 1px solid #f8caca; }
+        .btn-custom { padding: 4px 12px; font-size: 13px; font-weight: 600; border-radius: 20px; text-decoration: none; margin-right: 8px; transition: all 0.3s ease; cursor: pointer; border: none; display: inline-block;}
+        .btn-arxiv { background-color: rgba(176, 42, 42, 0.15); color: #b02a2a; border: 1px solid rgba(176, 42, 42, 0.3); }
         .btn-arxiv:hover { background-color: #b02a2a; color: white; text-decoration: none; }
-        .btn-pdf { background-color: #e6f2ff; color: #0056b3; border: 1px solid #cce5ff; }
+        .btn-pdf { background-color: rgba(0, 86, 179, 0.15); color: #0056b3; border: 1px solid rgba(0, 86, 179, 0.3); }
         .btn-pdf:hover { background-color: #0056b3; color: white; text-decoration: none; }
+        .btn-cite { background-color: rgba(232, 163, 23, 0.2); color: #b57a00; border: 1px solid rgba(232, 163, 23, 0.4); }
+        .btn-cite:hover { background-color: #E8A317; color: white; }
 
-        /* Apple Scroll Fade */
-        .reveal-on-scroll { opacity: 0; transform: translateY(35px); transition: opacity 1.0s cubic-bezier(0.16, 1, 0.3, 1), transform 1.0s cubic-bezier(0.16, 1, 0.3, 1); will-change: opacity, transform; }
+        /* INFINITE APPLE SCROLL FADE */
+        .reveal-on-scroll { opacity: 0; transform: translateY(35px); transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1); will-change: opacity, transform; }
         .reveal-on-scroll.is-visible { opacity: 1; transform: translateY(0); }
+
+        #theme-toggle { position: fixed; bottom: 30px; right: 30px; background: var(--cuhk-purple); color: white; border: none; border-radius: 50%; width: 50px; height: 50px; font-size: 24px; box-shadow: 0 4px 10px rgba(0,0,0,0.3); cursor: pointer; z-index: 100; transition: transform 0.2s, background 0.5s; display: flex; justify-content: center; align-items: center; }
+        #theme-toggle:hover { transform: scale(1.1); }
     </style>
 </head>
 <body>
 
-<!-- The Interactive Network Background -->
+<!-- Progress Bar -->
+<div id="scroll-progress"></div>
+
+<!-- Background -->
 <canvas id="network-canvas"></canvas>
+
+<!-- Theme Toggle -->
+<button id="theme-toggle" onclick="toggleTheme()" title="Toggle Dark Mode">🌙</button>
 
 <div class="container">
     <nav class="navbar navbar-expand-lg navbar-custom reveal-on-scroll">
@@ -154,16 +149,32 @@
         </div>
     </nav>
 
-    <div class="row reveal-on-scroll" style="margin-top: 40px;">
-        <div class="col-md-12 contact-info">
-            <h1>Trenton Lau</h1>
-            <!-- Dynamic Typing Effect Area -->
+    <div class="row reveal-on-scroll" style="margin-top: 40px; align-items: center;">
+        <div class="col-md-8 contact-info">
+            <h1 id="name-glitch" title="Hover over me!">Trenton Lau</h1>
             <h4><span id="typing-text"></span><span class="typing-cursor"></span></h4>
             <p><strong>Department of Mathematics</strong></p>
             <p><strong>The Chinese University of Hong Kong</strong></p>
             <p>Email: <a href="mailto:trentonlau@cuhk.edu.hk">trentonlau@cuhk.edu.hk</a></p>
             <p>Office: Room G06, Lady Shaw Building</p>
-            
+        </div>
+        <!-- PURE CSS 3D LATTICE CUBE -->
+        <div class="col-md-4 d-none d-md-block text-center" title="Hover to expand lattice!">
+            <div class="scene">
+                <div class="cube">
+                    <div class="cube-face front"></div>
+                    <div class="cube-face back"></div>
+                    <div class="cube-face right"></div>
+                    <div class="cube-face left"></div>
+                    <div class="cube-face top"></div>
+                    <div class="cube-face bottom"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row reveal-on-scroll">
+        <div class="col-12">
             <div class="bio-text">
                 I am a researcher in the Department of Mathematics at The Chinese University of Hong Kong, working under the supervision of <a href="https://www.math.cuhk.edu.hk/~ptchoi/" target="_blank">Prof. Gary P. T. Choi</a>. My research interests include mathematical modeling, geometric sampling, measure-theoretic foundations, and mechanical rigidity in lattice structures.
             </div>
@@ -176,7 +187,6 @@
         <span class="cat-icon icon-theme-1"></span> Machine Learning & Information Theory
     </div>
     
-    <!-- Card with 3D effect -->
     <div class="pub-item theme-1-hover reveal-on-scroll tilt-card">
         <div class="pub-title">The Normalized Maximum Likelihood for Regular Non-Smooth Models: Measure-Theoretic Foundations and Geometric Sampling</div>
         <div class="pub-authors">Trenton Lau, Gary P. T. Choi</div>
@@ -184,6 +194,7 @@
         <div style="transform: translateZ(10px);">
             <a href="https://arxiv.org/abs/2605.24477" class="btn-custom btn-arxiv" target="_blank">arXiv</a>
             <a href="https://arxiv.org/pdf/2605.24477" class="btn-custom btn-pdf" target="_blank">PDF</a>
+            <button class="btn-custom btn-cite" onclick="copyBib(this, `@article{lau2026normalized,\n  title={The Normalized Maximum Likelihood for Regular Non-Smooth Models: Measure-Theoretic Foundations and Geometric Sampling},\n  author={Lau, Trenton and Choi, Gary P. T.},\n  journal={arXiv preprint arXiv:2605.24477},\n  year={2026}\n}`)">Cite</button>
         </div>
         <div class="pub-abstract"><strong>Abstract:</strong> The Normalized Maximum Likelihood (NML) codelength, or stochastic complexity, represents a principled criterion for universal coding. While recent coarea-based formulations provided a calculation method for smooth models, this framework collapses for the non-smooth estimators ubiquitous in modern machine learning (e.g., Lasso, Sparse SVMs). In this work, we provide a rigorous framework for computation...</div>
     </div>
@@ -192,7 +203,6 @@
         <span class="cat-icon icon-theme-2"></span> Network Science & Statistical Mechanics
     </div>
 
-    <!-- Card with 3D effect -->
     <div class="pub-item theme-2-hover reveal-on-scroll tilt-card">
         <div class="pub-title">Explosive connectivity and mechanical rigidity in cubic lattice structures</div>
         <div class="pub-authors">Trenton Lau, Gary P. T. Choi</div>
@@ -200,35 +210,75 @@
         <div style="transform: translateZ(10px);">
             <a href="https://arxiv.org/abs/2511.01537" class="btn-custom btn-arxiv" target="_blank">arXiv</a>
             <a href="https://arxiv.org/pdf/2511.01537" class="btn-custom btn-pdf" target="_blank">PDF</a>
+            <button class="btn-custom btn-cite" onclick="copyBib(this, `@article{lau2025explosive,\n  title={Explosive connectivity and mechanical rigidity in cubic lattice structures},\n  author={Lau, Trenton and Choi, Gary P. T.},\n  journal={arXiv preprint arXiv:2511.01537},\n  year={2025}\n}`)">Cite</button>
         </div>
-        <!-- Notice the LaTeX MathJax flex here! -->
         <div class="pub-abstract"><strong>Abstract:</strong> We study explosive connectivity and mechanical rigidity in three-dimensional cubic lattice structures under Achlioptas-type product-rule dynamics. Our work combines extensive numerical simulation with the development of a new theoretical framework. For connectivity, we rigorously establish the presence of sublinear-width merger-cascade windows for \( k \ge 2 \), which drive macroscopic jumps in the order...</div>
     </div>
 
-    <footer class="mt-5 pt-4 text-center text-muted reveal-on-scroll" style="font-size: 14px; margin-bottom: 20px; border-top: 1px solid #d2d2d7;">
+    <footer class="mt-5 pt-4 text-center opacity-75 reveal-on-scroll" style="font-size: 14px; margin-bottom: 20px; border-top: 1px solid rgba(128,128,128,0.3);">
         <p>&copy; 2026 Trenton Lau. The Chinese University of Hong Kong.</p>
     </footer>
 </div>
 
-<!-- ============================================== -->
-<!-- JAVASCRIPT FOR THE "炫技" (SHOW-OFF) EFFECTS   -->
-<!-- ============================================== -->
 <script>
-    // 1. Dynamic Typing Effect
+    // --- 1. Math Glitch Effect on Name ---
+    const nameEl = document.getElementById("name-glitch");
+    const originalName = nameEl.innerText;
+    const mathSymbols = ['∑', '∫', '∆', '∇', '∂', 'ℵ', '∞', 'µ', 'σ', 'λ', 'Ω', '≠', '≈', '⊗', '⊕'];
+    
+    nameEl.addEventListener('mouseenter', () => {
+        let iterations = 0;
+        clearInterval(nameEl.interval);
+        nameEl.interval = setInterval(() => {
+            nameEl.innerText = originalName.split('').map((char, index) => {
+                if(index < iterations || char === ' ') return originalName[index];
+                return mathSymbols[Math.floor(Math.random() * mathSymbols.length)];
+            }).join('');
+            if(iterations >= originalName.length) clearInterval(nameEl.interval);
+            iterations += 1/3; 
+        }, 30);
+    });
+
+    // --- 2. Scroll Progress Bar ---
+    window.onscroll = function() {
+        let winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+        let height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+        let scrolled = (winScroll / height) * 100;
+        document.getElementById("scroll-progress").style.width = scrolled + "%";
+    };
+
+    // --- 3. Dark Mode Logic ---
+    function toggleTheme() {
+        const body = document.body;
+        const btn = document.getElementById("theme-toggle");
+        body.classList.toggle("dark-mode");
+        btn.innerText = body.classList.contains("dark-mode") ? "☀️" : "🌙";
+        updateCanvasColor(); 
+    }
+
+    // --- 4. BibTeX Copy Logic ---
+    function copyBib(button, text) {
+        navigator.clipboard.writeText(text).then(() => {
+            button.innerText = "Copied!";
+            button.style.backgroundColor = "#2E8B57";
+            button.style.color = "white";
+            setTimeout(() => {
+                button.innerText = "Cite";
+                button.style.backgroundColor = "";
+                button.style.color = "";
+            }, 2000);
+        });
+    }
+
+    // --- 5. Dynamic Typing Effect ---
     const titles = ["Researcher", "Mathematician", "Network Scientist"];
     let titleIndex = 0; let charIndex = 0; let isDeleting = false;
     const typingElement = document.getElementById("typing-text");
 
     function typeEffect() {
         const currentTitle = titles[titleIndex];
-        if (isDeleting) {
-            typingElement.textContent = currentTitle.substring(0, charIndex - 1);
-            charIndex--;
-        } else {
-            typingElement.textContent = currentTitle.substring(0, charIndex + 1);
-            charIndex++;
-        }
-
+        typingElement.textContent = isDeleting ? currentTitle.substring(0, charIndex - 1) : currentTitle.substring(0, charIndex + 1);
+        charIndex += isDeleting ? -1 : 1;
         let speed = isDeleting ? 50 : 100;
         if (!isDeleting && charIndex === currentTitle.length) { speed = 2000; isDeleting = true; } 
         else if (isDeleting && charIndex === 0) { isDeleting = false; titleIndex = (titleIndex + 1) % titles.length; speed = 500; }
@@ -236,95 +286,101 @@
     }
     setTimeout(typeEffect, 1000);
 
-    // 2. Apple TV 3D Tilt Effect on Cards
+    // --- 6. Apple TV 3D Tilt Effect ---
     document.querySelectorAll('.tilt-card').forEach(card => {
         card.addEventListener('mousemove', (e) => {
             const rect = card.getBoundingClientRect();
-            const x = e.clientX - rect.left; // x position within the element.
-            const y = e.clientY - rect.top;  // y position within the element.
-            const centerX = rect.width / 2;
-            const centerY = rect.height / 2;
-            // Calculate tilt (Max tilt 6 degrees)
-            const rotateX = -((y - centerY) / centerY) * 6;
-            const rotateY = ((x - centerX) / centerX) * 6;
-            
+            const x = e.clientX - rect.left, y = e.clientY - rect.top;
+            const rotateX = -((y - rect.height / 2) / (rect.height / 2)) * 5;
+            const rotateY = ((x - rect.width / 2) / (rect.width / 2)) * 5;
             card.style.setProperty('--rx', `${rotateX}deg`);
             card.style.setProperty('--ry', `${rotateY}deg`);
             card.style.transition = 'transform 0.1s ease-out';
         });
         card.addEventListener('mouseleave', () => {
-            // Reset when mouse leaves
-            card.style.setProperty('--rx', `0deg`);
-            card.style.setProperty('--ry', `0deg`);
+            card.style.setProperty('--rx', `0deg`); card.style.setProperty('--ry', `0deg`);
             card.style.transition = 'transform 0.5s ease-out, box-shadow 0.5s ease-out';
         });
     });
 
-    // 3. Apple-style Scroll Fade-in
-    const observer = new IntersectionObserver((entries, obs) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                entry.target.classList.add('is-visible');
-                obs.unobserve(entry.target);
+    // --- 7. INFINITE Scroll Fade-in & Fade-out (THE NEW FIX) ---
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(e => { 
+            if (e.isIntersecting) { 
+                e.target.classList.add('is-visible'); 
+            } else {
+                // By removing the class when off-screen, it plays the reverse animation!
+                e.target.classList.remove('is-visible'); 
             }
         });
     }, { threshold: 0.15 });
     document.querySelectorAll('.reveal-on-scroll').forEach(el => observer.observe(el));
-    setTimeout(() => { document.querySelectorAll('.reveal-on-scroll').forEach(el => { if(el.getBoundingClientRect().top < window.innerHeight) el.classList.add('is-visible'); }); }, 100);
 
-    // 4. Interactive Network/Lattice Background Canvas
+    // --- 8. Explosive Percolation Canvas ---
     const canvas = document.getElementById('network-canvas');
     const ctx = canvas.getContext('2d');
-    let width, height;
-    let particles = [];
+    let width, height, particles = [];
     const mouse = { x: null, y: null, radius: 150 };
 
     window.addEventListener('mousemove', (e) => { mouse.x = e.x; mouse.y = e.y; });
     window.addEventListener('mouseout', () => { mouse.x = null; mouse.y = null; });
     window.addEventListener('resize', initCanvas);
+    
+    // EXPLOSION LOGIC: Reacts to clicks
+    window.addEventListener('click', (e) => {
+        particles.forEach(p => {
+            let dx = p.x - e.x;
+            let dy = p.y - e.y;
+            let distance = Math.sqrt(dx * dx + dy * dy);
+            if (distance < 300) { 
+                let force = (300 - distance) / 300;
+                p.vx = (dx / distance) * force * 40; 
+                p.vy = (dy / distance) * force * 40;
+            }
+        });
+    });
+
+    function getParticleColor() { return getComputedStyle(document.documentElement).getPropertyValue('--particle-color').trim(); }
+    let colorRGB = getParticleColor();
+    function updateCanvasColor() { colorRGB = getParticleColor(); }
 
     class Particle {
         constructor(x, y) {
             this.x = x; this.y = y;
+            this.baseX = x; this.baseY = y;
+            this.vx = 0; this.vy = 0; 
             this.size = Math.random() * 2 + 1;
-            this.baseX = this.x; this.baseY = this.y;
             this.density = (Math.random() * 30) + 1;
         }
-        draw() {
-            ctx.fillStyle = 'rgba(116, 37, 113, 0.5)'; // CUHK Purple subtle
+        draw(colorRGB) {
+            ctx.fillStyle = `rgba(${colorRGB}, 0.5)`; 
             ctx.beginPath(); ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
             ctx.closePath(); ctx.fill();
         }
         update() {
-            // Push away from mouse slightly (interaction)
-            let dx = mouse.x - this.x; let dy = mouse.y - this.y;
-            let distance = Math.sqrt(dx * dx + dy * dy);
-            let forceDirectionX = dx / distance; let forceDirectionY = dy / distance;
-            let maxDistance = mouse.radius;
-            let force = (maxDistance - distance) / maxDistance;
-            let directionX = forceDirectionX * force * this.density;
-            let directionY = forceDirectionY * force * this.density;
+            this.x += this.vx; this.y += this.vy;
+            this.vx *= 0.85; this.vy *= 0.85; 
 
-            if (distance < mouse.radius) { this.x -= directionX; this.y -= directionY; } 
-            else {
-                if (this.x !== this.baseX) { let dx = this.x - this.baseX; this.x -= dx/10; }
-                if (this.y !== this.baseY) { let dy = this.y - this.baseY; this.y -= dy/10; }
+            let dx = mouse.x - this.x, dy = mouse.y - this.y;
+            let distance = Math.sqrt(dx * dx + dy * dy);
+            if (distance < mouse.radius) { 
+                let force = (mouse.radius - distance) / mouse.radius;
+                this.x -= (dx / distance) * force * this.density; 
+                this.y -= (dy / distance) * force * this.density; 
+            } 
+            else { 
+                if (this.x !== this.baseX) { this.x -= (this.x - this.baseX)/15; }
+                if (this.y !== this.baseY) { this.y -= (this.y - this.baseY)/15; }
             }
         }
     }
 
     function initCanvas() {
-        width = canvas.width = window.innerWidth;
-        height = canvas.height = window.innerHeight;
+        width = canvas.width = window.innerWidth; height = canvas.height = window.innerHeight;
         particles = [];
-        // Create a lattice-like grid of particles
-        let spacing = 60; 
-        for (let y = 0; y < height; y += spacing) {
-            for (let x = 0; x < width; x += spacing) {
-                // Add some randomness to break perfect grid
-                let offsetX = x + (Math.random() * 20 - 10);
-                let offsetY = y + (Math.random() * 20 - 10);
-                particles.push(new Particle(offsetX, offsetY));
+        for (let y = 0; y < height; y += 65) {
+            for (let x = 0; x < width; x += 65) {
+                particles.push(new Particle(x + (Math.random()*20-10), y + (Math.random()*20-10)));
             }
         }
     }
@@ -332,27 +388,21 @@
     function animate() {
         ctx.clearRect(0, 0, width, height);
         for (let i = 0; i < particles.length; i++) {
-            particles[i].update(); particles[i].draw();
-            // Draw connecting lines (The lattice)
+            particles[i].update(); particles[i].draw(colorRGB);
             for (let j = i; j < particles.length; j++) {
-                let dx = particles[i].x - particles[j].x;
-                let dy = particles[i].y - particles[j].y;
+                let dx = particles[i].x - particles[j].x, dy = particles[i].y - particles[j].y;
                 let distance = Math.sqrt(dx * dx + dy * dy);
-                if (distance < 80) { // Connect nearby nodes
+                if (distance < 90) { 
                     ctx.beginPath();
-                    ctx.strokeStyle = `rgba(116, 37, 113, ${0.2 - distance/400})`; // Fade out lines
-                    ctx.lineWidth = 1;
-                    ctx.moveTo(particles[i].x, particles[i].y);
-                    ctx.lineTo(particles[j].x, particles[j].y);
+                    ctx.strokeStyle = `rgba(${colorRGB}, ${0.2 - distance/450})`; 
+                    ctx.moveTo(particles[i].x, particles[i].y); ctx.lineTo(particles[j].x, particles[j].y);
                     ctx.stroke(); ctx.closePath();
                 }
             }
         }
         requestAnimationFrame(animate);
     }
-
-    initCanvas();
-    animate();
+    initCanvas(); animate();
 </script>
 
 </body>
