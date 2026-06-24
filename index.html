@@ -186,7 +186,21 @@
     <div class="category-title cat-theme-1 reveal-on-scroll">
         <span class="cat-icon icon-theme-1"></span> Machine Learning & Information Theory
     </div>
+
+    <!-- Publication 1: Exact Schur-Sylvester Dimensionality Reductions -->
+    <div class="pub-item theme-1-hover reveal-on-scroll tilt-card">
+        <div class="pub-title">Exact Schur-Sylvester Dimensionality Reductions for Non-Smooth Stochastic Complexity and Manifold Sampling</div>
+        <div class="pub-authors">Trenton Lau, Gary P. T. Choi</div>
+        <div class="pub-venue">arXiv preprint arXiv:2606.23867 (2026)</div>
+        <div style="transform: translateZ(10px);">
+            <a href="https://arxiv.org/abs/2606.23867" class="btn-custom btn-arxiv" target="_blank">arXiv</a>
+            <a href="https://arxiv.org/pdf/2606.23867" class="btn-custom btn-pdf" target="_blank">PDF</a>
+            <button class="btn-custom btn-cite" onclick="copyBib(this, '@article{lau2026exact,\n  title={Exact Schur-Sylvester Dimensionality Reductions for Non-Smooth Stochastic Complexity and Manifold Sampling},\n  author={Lau, Trenton and Choi, Gary P. T.},\n  journal={arXiv preprint arXiv:2606.23867},\n  year={2026}\n}')">Cite</button>
+        </div>
+        <div class="pub-abstract"><strong>Abstract:</strong> The exact computation of the Normalized Maximum Likelihood (NML) codelength for regular non-smooth estimators (e.g., Lasso) has been historically limited by the cubic scaling walls of manifold-constrained projection and volume integration. At each step of the geometric Propose-and-Project Metropolis–Hastings (PPMH) sampler, evaluating the projection operator requires inverting an \( (N + k) \times (N + k) \) generalized KKT matrix, while calculating the volume factor requires the determinant of an \( (N - k) \times (N - k) \) Gram matrix. This paper presents an exact, mathematically equivalent formulation that bypasses both bottlenecks by utilizing the block Schur complement and Sylvester’s determinant identity. We prove that the computational complexity of both operations collapses from \( \mathcal{O}(N^3) \) to \( \mathcal{O}(k^3 + N^2k) \) per step. We generalize this reduction to Sparse Support Vector Machines (SVMs), Elastic Net, and Group Lasso. Finally, we provide a rigorous numerical stability analysis and evaluate the sampler’s efficiency using the Effective Sample Size (ESS) per second. Our empirical benchmarks on high-dimensional datasets confirm a constant speedup exceeding \( 14{,}100\times \) while maintaining double-precision numerical equivalence, rendering exact non-smooth NML estimation highly tractable for large-scale statistical inference.</div>
+    </div>
     
+    <!-- Publication 2: NML for Regular Non-Smooth Models -->
     <div class="pub-item theme-1-hover reveal-on-scroll tilt-card">
         <div class="pub-title">The Normalized Maximum Likelihood for Regular Non-Smooth Models: Measure-Theoretic Foundations and Geometric Sampling</div>
         <div class="pub-authors">Trenton Lau, Gary P. T. Choi</div>
@@ -194,15 +208,16 @@
         <div style="transform: translateZ(10px);">
             <a href="https://arxiv.org/abs/2605.24477" class="btn-custom btn-arxiv" target="_blank">arXiv</a>
             <a href="https://arxiv.org/pdf/2605.24477" class="btn-custom btn-pdf" target="_blank">PDF</a>
-            <button class="btn-custom btn-cite" onclick="copyBib(this, `@article{lau2026normalized,\n  title={The Normalized Maximum Likelihood for Regular Non-Smooth Models: Measure-Theoretic Foundations and Geometric Sampling},\n  author={Lau, Trenton and Choi, Gary P. T.},\n  journal={arXiv preprint arXiv:2605.24477},\n  year={2026}\n}`)">Cite</button>
+            <button class="btn-custom btn-cite" onclick="copyBib(this, '@article{lau2026normalized,\n  title={The Normalized Maximum Likelihood for Regular Non-Smooth Models: Measure-Theoretic Foundations and Geometric Sampling},\n  author={Lau, Trenton and Choi, Gary P. T.},\n  journal={arXiv preprint arXiv:2605.24477},\n  year={2026}\n}')">Cite</button>
         </div>
-        <div class="pub-abstract"><strong>Abstract:</strong> The Normalized Maximum Likelihood (NML) codelength, or stochastic complexity, represents a principled criterion for universal coding. While recent coarea-based formulations provided a calculation method for smooth models, this framework collapses for the non-smooth estimators ubiquitous in modern machine learning (e.g., Lasso, Sparse SVMs). In this work, we provide a rigorous framework for computation...</div>
+        <div class="pub-abstract"><strong>Abstract:</strong> The Normalized Maximum Likelihood (NML) codelength, or stochastic complexity, represents a principled criterion for universal coding. While recent coarea-based formulations provided a calculation method for smooth models, this framework collapses for the non-smooth estimators ubiquitous in modern machine learning (e.g., Lasso, Sparse SVMs). In this work, we provide a rigorous framework for computing the NML for regular path-differentiable Lipschitz (PDL) estimators. By applying classical geometric measure theory and bridging the coarea formula with conservative Jacobians, we prove that the stochastic complexity for non-smooth models is well-posed and theoretically consistent with the outputs of modern Automatic Differentiation. To compute this quantity exactly, we introduce the Propose-and-Project Metropolis–Hastings (PDL-PPMH) sampler, a geometric MCMC algorithm capable of traversing the non-differentiable level sets of the maximum likelihood estimator. We theoretically justify its components, including a stochastic tangent space proposal and a provably convergent non-smooth projection solver. We demonstrate the method’s robustness by sampling from a high-dimensional Lasso posterior (\( P = 2000 \ )), while simultaneously quantifying the computational scaling that governs the trade-off between exactness and mixing time. Crucially, we empirically demonstrate that our exact NML criterion provides a highly data-efficient alternative to cross-validation, achieving statistically indistinguishable predictive optima without requiring data splitting. Altogether, our work paves the way for the theoretical analysis of the NML codelength for regular non-smooth models.</div>
     </div>
 
     <div class="category-title cat-theme-2 reveal-on-scroll">
         <span class="cat-icon icon-theme-2"></span> Network Science & Statistical Mechanics
     </div>
 
+    <!-- Publication 3: Explosive connectivity and mechanical rigidity -->
     <div class="pub-item theme-2-hover reveal-on-scroll tilt-card">
         <div class="pub-title">Explosive connectivity and mechanical rigidity in cubic lattice structures</div>
         <div class="pub-authors">Trenton Lau, Gary P. T. Choi</div>
@@ -210,9 +225,9 @@
         <div style="transform: translateZ(10px);">
             <a href="https://arxiv.org/abs/2511.01537" class="btn-custom btn-arxiv" target="_blank">arXiv</a>
             <a href="https://arxiv.org/pdf/2511.01537" class="btn-custom btn-pdf" target="_blank">PDF</a>
-            <button class="btn-custom btn-cite" onclick="copyBib(this, `@article{lau2025explosive,\n  title={Explosive connectivity and mechanical rigidity in cubic lattice structures},\n  author={Lau, Trenton and Choi, Gary P. T.},\n  journal={arXiv preprint arXiv:2511.01537},\n  year={2025}\n}`)">Cite</button>
+            <button class="btn-custom btn-cite" onclick="copyBib(this, '@article{lau2025explosive,\n  title={Explosive connectivity and mechanical rigidity in cubic lattice structures},\n  author={Lau, Trenton and Choi, Gary P. T.},\n  journal={arXiv preprint arXiv:2511.01537},\n  year={2025}\n}')">Cite</button>
         </div>
-        <div class="pub-abstract"><strong>Abstract:</strong> We study explosive connectivity and mechanical rigidity in three-dimensional cubic lattice structures under Achlioptas-type product-rule dynamics. Our work combines extensive numerical simulation with the development of a new theoretical framework. For connectivity, we rigorously establish the presence of sublinear-width merger-cascade windows for \( k \ge 2 \), which drive macroscopic jumps in the order...</div>
+        <div class="pub-abstract"><strong>Abstract:</strong> We study explosive connectivity and mechanical rigidity in three-dimensional cubic lattice structures under Achlioptas-type product-rule dynamics. Our work combines extensive numerical simulation with the development of a new theoretical framework. For connectivity, we rigorously establish the presence of sublinear-width merger-cascade windows for \( k \ge 2 \), which drive macroscopic jumps in the order parameter and imply a first-order transition. For rigidity, we discover numerically that for richly-connected hosts, increasing the number of choices \( k \) monotonically enhances the efficiency of rigidification. To explain this phenomenon, we propose a theoretical model centered on a conditional progress function that links an edge’s local product-rule score to its global mechanical utility. We show that this function becomes non-increasing, thus explaining the observed monotonic efficiency, under two physically-motivated assumptions. Altogether, our work provides new insights into the relationship between local dynamics and global connectivity and rigidity in cubic lattice structures via both theory and computation.</div>
     </div>
 
     <footer class="mt-5 pt-4 text-center opacity-75 reveal-on-scroll" style="font-size: 14px; margin-bottom: 20px; border-top: 1px solid rgba(128,128,128,0.3);">
@@ -298,7 +313,8 @@
             card.style.transition = 'transform 0.1s ease-out';
         });
         card.addEventListener('mouseleave', () => {
-            card.style.setProperty('--rx', `0deg`); card.style.setProperty('--ry', `0deg`);
+            card.style.setProperty('--rx', `0deg`); 
+            card.style.setProperty('--ry', `0deg`);
             card.style.transition = 'transform 0.5s ease-out, box-shadow 0.5s ease-out';
         });
     });
